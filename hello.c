@@ -12,6 +12,10 @@ int main(void)
     char buf[6][15];
     int buf_str_len;
     int Height_squre;
+
+
+   /*disable the READ_COUNTER function*/
+   #if 0
 	printf("This is a test program for QEMU counter device\n");
 	printf("See http://github.com/krasin/qemu-counter for more details\n\n");
 	printf("Let's check if the Read Counter device presented\n");
@@ -28,13 +32,10 @@ int main(void)
 	else {
 		printf("ERROR - Something is wrong with Read Counter\n");
 	}
+   #endif 
 
 
-
-
-
-
-   //JackABK added
+   //Creating the personal information 
    printf("===Welcome to create personal information by semihost system===i\n");
 
    fd = fopen( "./personal_info.txt" ,"a");  
@@ -85,11 +86,23 @@ int main(void)
 
 
    /*Calculate BMI*/
-   /* 
-            */
-
+   Height_squre = str2int(buf[3]) * str2int(buf[3]);
    return 0;
 
+}
+
+
+
+int str2int(char *str)
+{
+ int i=0,tmp=0;
+ while(str[i]!='\0')
+ {
+  if(str[i]>='0'&&str[i]<='9')
+   tmp=tmp*10+(str[i]-'0');
+  i++;
+ }
+ return tmp;
 }
 
 
