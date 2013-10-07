@@ -11,8 +11,8 @@ int main(void)
     FILE * fd ;
     char buf[6][15];
     int buf_str_len;
-    int Height_squre;
-
+    int Height_squre , BMI;
+    char file_name[15]; 
 
    /*disable the READ_COUNTER function*/
    #if 0
@@ -38,9 +38,12 @@ int main(void)
    //Creating the personal information 
    printf("===Welcome to create personal information by semihost system===i\n");
 
-   fd = fopen( "./personal_info.txt" ,"a");  
-   
 
+   /*Creat the file name*/
+   printf("Please key in your file name\n");
+   scanf("%s" , file_name);
+   fd = fopen( file_name ,"a");  
+   
    /*Name*/
    printf("Please key in  your Name\n");
    scanf("%s", buf[0]);
@@ -85,8 +88,14 @@ int main(void)
    fprintf(fd , buf[4] , buf_str_len+1);
 
 
-   /*Calculate BMI*/
-   Height_squre = str2int(buf[3]) * str2int(buf[3]);
+   /*Calculate BMI and write to file*/
+   Height_squre = (str2int(buf[3]) * str2int(buf[3]))/10000;
+   BMI = str2int(buf[4]) / Height_squre;
+   int_To_string(BMI , buf[5]);
+   buf_str_len = strlen(buf[5]);
+   buf[5][buf_str_len] = '\n';
+   fprintf(fd , "BMI : " , 6 );
+   fprintf(fd , buf[5] , buf_str_len+1);
    return 0;
 
 }
@@ -106,5 +115,30 @@ int str2int(char *str)
 }
 
 
+void int_To_string(int in , char*out )
+{
+  int i, number_len=0; 
+  char out_tmp[10];
+ 
 
 
+  if(in == 0)
+  {
+    out[0] = '0';
+    out[1] = '\0';
+    return ;
+  }
+
+ 
+  while(in > 0)
+  {
+     out_tmp[number_len] = '0' +  (in % 10);
+     in /= 10;
+     number_len++;     
+  }  
+  
+  for(i=0; i<number_len; i++){
+     out[i] = out_tmp[number_len-1-i] ;
+  }    
+     out[number_len] = '\0';
+}       
